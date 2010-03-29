@@ -7,7 +7,6 @@
 *  DEVELOPERS:	Christian Myhre Lundheim <>
 *				Derek Abdine <>
 *               Jax <>
-*               Sebas Lamers <sebasdevelopment@gmx.com>
 *
 *  Multi Theft Auto is available from http://www.multitheftauto.com/
 *
@@ -174,11 +173,7 @@ bool CCommands::Execute ( const char* szCommand, const char* szParametersIn, boo
     {
         if ( CCore::GetSingleton ().IsValidNick ( szParameters ) )
         {
-            std::string newNick = szParameters;
-			CVARS_SET ( "nick", newNick );
-
-            CCore::GetSingleton ().GetConsole ()->Print ( SString( "You are now known as %s", newNick.c_str() ) );
-            return true;
+            CVARS_SET ( "nick", std::string ( szParameters ) );
         }
 
         if ( strlen ( szParameters ) >= MAX_PLAYER_NICK_LENGTH &&
@@ -186,10 +181,8 @@ bool CCommands::Execute ( const char* szCommand, const char* szParametersIn, boo
              CCore::GetSingleton ().GetNetwork ()->GetServerBitStreamVersion () < 0x06 )
         {
             // Limit the nick length for servers that have a problem with max length nicks
-            szParameters [ MAX_PLAYER_NICK_LENGTH - 1 ] = 0;    
-            CCore::GetSingleton ().GetConsole ()->Print ( "Error, you nick is too long." );
+            szParameters [ MAX_PLAYER_NICK_LENGTH - 1 ] = 0;             
         }
-		return false;
     }
 
     // Try to execute the handler
