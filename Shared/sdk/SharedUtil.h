@@ -13,6 +13,9 @@
 
 #pragma once
 #include "SString.h"
+#include <list>
+#include <vector>
+#include <map>
 #include <deque>
 
 //
@@ -123,6 +126,85 @@ namespace SharedUtil
     {
         return static_cast < int > ( floor ( value + 0.5f ) );
     }
+
+
+
+    //
+    // Container helpers for std::list/vector/map
+    //
+
+    //
+    // std::list helpers
+    //
+
+    // Returns true if the item is in the itemList
+    template < class T >
+    bool ListContains ( const std::list < T >& itemList, const T& item )
+    {
+        typename std::list < T > ::const_iterator it = itemList.begin ();
+        for ( ; it != itemList.end () ; ++it )
+            if ( item == *it )
+                return true;
+        return false;
+    }
+
+
+    //
+    // std::vector helpers
+    //
+
+    // Returns true if the item is in the itemList
+    template < class T >
+    bool ListContains ( const std::vector < T >& itemList, const T& item )
+    {
+        typename std::vector < T > ::const_iterator it = itemList.begin ();
+        for ( ; it != itemList.end () ; ++it )
+            if ( item == *it )
+                return true;
+        return false;
+    }
+
+    // Remove first occurrence of item from itemList
+    template < class T >
+    void ListRemove ( std::vector < T >& itemList, const T& item )
+    {
+        typename std::vector < T > ::iterator it = itemList.begin ();
+        for ( ; it != itemList.end () ; ++it )
+            if ( item == *it )
+            {
+                itemList.erase ( it );
+                break;
+            }
+    }
+
+
+    //
+    // std::map helpers
+    //
+
+    // Update or add a value for a key
+    template < class T, class V >
+    void MapSet ( std::map < T, V >& collection, const T& key, const V& value )
+    {
+        collection[ key ] = value;
+    }
+
+    // Returns true if the item is in the collection
+    template < class T, class V >
+    bool MapContains ( const std::map < T, V >& collection, const T& key )
+    {
+        return collection.find ( key ) != collection.end ();
+    }
+
+    // Remove key from collection
+    template < class T, class V >
+    void MapRemove ( std::map < T, V >& collection, const T& key )
+    {
+        typename std::map < T, V > ::iterator it = collection.find ( key );
+        if ( it != collection.end () )
+            collection.erase ( it );
+    }
+
 
 
     //
@@ -237,7 +319,7 @@ namespace SharedUtil
     //
     // ID 'stack'
     //
-    template < typename T, unsigned long MAX_STACK_SIZE, unsigned long INVALID_STACK_ID = 0xFFFFFFFF >
+    template < typename T, unsigned long MAX_STACK_SIZE, T INVALID_STACK_ID >
     class CStack
     {
     public:
@@ -267,6 +349,7 @@ namespace SharedUtil
         inline void Push ( T ID )
         {
             assert ( m_Queue.size () < MAX_STACK_SIZE - 1 );
+            assert ( ID != INVALID_STACK_ID );
             // Push to the front
             return m_Queue.push_front ( ID );
         }

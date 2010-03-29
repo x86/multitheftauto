@@ -15,6 +15,7 @@
 #include <map>
 #include <set>
 #include <string>
+#include <sstream>
 #include <vector>
 #include <cstdio>
 #include <cstring>
@@ -65,9 +66,6 @@
 #include <CClientStreamSector.h>
 #include <CClientStreamSectorRow.h>
 #include <CClientTask.h>
-#include <CClientTextDisplayBackgroundEffect.h>
-#include <CClientTextDisplayFadeEffect.h>
-#include <CClientTextDisplayGlowEffect.h>
 #include <CClientTXD.h>
 #include <CClientWater.h>
 #include <CCustomData.h>
