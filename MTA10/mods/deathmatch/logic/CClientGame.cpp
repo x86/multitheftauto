@@ -4231,9 +4231,6 @@ void CClientGame::ResetMapInfo ( void )
     // Water-colour
     g_pMultiplayer->ResetWater ();
 
-    // Water
-    g_pGame->GetWaterManager ()->Reset ();
-
      // Sky-gradient
     g_pMultiplayer->SetCloudsEnabled ( true );
     g_pClientGame->SetCloudsEnabled ( true );
